@@ -1,0 +1,796 @@
+<html><head><base href="https://finanzas-personales.com">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Control Financiero</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+    :root {
+        --primary-pink: #FF69B4;
+        --secondary-pink: #FFB6C1;
+        --light-pink: #FFF0F5;
+        --dark-pink: #DB7093;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    body {
+        background: var(--light-pink);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        transition: background 0.3s ease;
+        min-height: 100vh;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background: var(--secondary-pink);
+        border-radius: 15px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    
+    .login-btn {
+        background: var(--primary-pink);
+        color: white;
+        border: 3px solid var(--dark-pink);
+        padding: 12px 24px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .login-btn:hover {
+        background: var(--dark-pink);
+        transform: translateY(-4px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+    
+    .balance-section {
+        position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: linear-gradient(145deg, var(--secondary-pink), var(--primary-pink));
+        border: 3px solid var(--dark-pink);
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+        margin-bottom: 20px;
+        box-shadow: 5px 5px 0 rgba(0,0,0,0.1);
+        animation: floatAnimation 4s infinite ease-in-out;
+    }
+    
+    .balance-section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+    
+    .balance-title {
+        font-family: 'Poppins', sans-serif;
+        color: white;
+        font-size: 24px;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+    
+    .balance-amount {
+        font-size: 32px;
+        font-weight: 600;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        margin: 30px 0;
+        order: 1;
+        transition: transform 0.3s ease;
+    }
+    
+    .balance-amount:hover {
+        transform: scale(1.05);
+    }
+    
+    .emotion-container {
+        font-size: 80px;
+        margin: 20px 0;
+        order: 2;
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .emotion-container:hover {
+        transform: scale(1.1) rotate(5deg);
+    }
+    
+    .emotion-message {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 10px 15px;
+        border-radius: 15px;
+        backdrop-filter: blur(5px);
+        color: white;
+        font-size: 20px;
+        max-width: 80%;
+        margin: 15px auto;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        order: 3;
+    }
+    
+    .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 20px 0;
+    }
+    
+    .action-btn {
+        width: 70px;
+        height: 70px;
+        border: 3px solid;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        padding: 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+    }
+    
+    .action-btn:hover {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    }
+    
+    .income-btn {
+        background: #4CAF50;
+        border-color: #3a8a3d;
+        color: white;
+    }
+    
+    .expense-btn {
+        background: #f44336;
+        border-color: #c53a30;
+        color: white;
+    }
+    
+    .history-btn {
+        background: var(--secondary-pink);
+        border-color: var(--dark-pink);
+        color: white;
+    }
+    
+    .emotion-settings {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    
+    .background-settings {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+    
+    .settings-btn {
+        background: var(--primary-pink);
+        color: white;
+        border: none;
+        padding: 8px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .settings-btn:hover {
+        background: var(--dark-pink);
+        transform: rotate(45deg);
+    }
+    
+    .history-section {
+        background: white;
+        border: 3px solid var(--dark-pink);
+        border-radius: 15px;
+        padding: 20px;
+        display: none;
+        box-shadow: 5px 5px 0 rgba(0,0,0,0.1);
+    }
+    
+    .transaction-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 15px;
+        border-bottom: 1px solid #eee;
+        font-size: 12px;
+    }
+    
+    .transaction-item:last-child {
+        border-bottom: none;
+    }
+    
+    .income {
+        color: #4CAF50;
+    }
+    
+    .expense {
+        color: #f44336;
+    }
+    
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .modal-content {
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 25px;
+        padding: 40px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        width: 90%;
+        max-width: 500px;
+        transform: translateY(0);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .modal.active .modal-content {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    
+    .close-btn {
+        float: right;
+        cursor: pointer;
+        font-size: 24px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 500;
+    }
+    
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 15px;
+        border: 2px solid rgba(219,112,147,0.3);
+        border-radius: 15px;
+        font-size: 16px;
+        background: rgba(255,255,255,0.9);
+        transition: all 0.3s ease;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus {
+        border-color: var(--primary-pink);
+        box-shadow: 0 0 0 3px rgba(255,105,180,0.2);
+        outline: none;
+    }
+    
+    .submit-btn {
+        background: var(--primary-pink);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 20px;
+    }
+    
+    .submit-btn:hover {
+        background: var(--dark-pink);
+        transform: translateY(-2px);
+    }
+    
+    .transaction-list {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
+    
+    .bounce {
+        animation: bounce 1s infinite;
+    }
+    
+    .totals-summary {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: rgba(255,255,255,0.8);
+        border-radius: 15px;
+    }
+    
+    .total-item {
+        text-align: center;
+        padding: 15px;
+        border-radius: 12px;
+    }
+    
+    .total-item.income {
+        background: rgba(76,175,80,0.1);
+        border: 2px solid rgba(76,175,80,0.3);
+    }
+    
+    .total-item.expense {
+        background: rgba(244,67,54,0.1);
+        border: 2px solid rgba(244,67,54,0.3);
+    }
+    
+    .total-item h3 {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    
+    .total-item span {
+        font-size: 24px;
+        font-weight: 600;
+    }
+    
+    /* Style for custom images */
+    .emotion-container img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+    }
+    
+    /* New enhancements */
+    @keyframes floatAnimation {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+        100% { transform: translateY(0); }
+    }
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            <header class="header">
+                <h1>Mi Control Financiero</h1>
+                <button class="login-btn" onclick="showLoginModal()">
+                    <i class="fas fa-user"></i> Get In
+                </button>
+            </header>
+    
+            <div class="balance-section">
+                <h2 class="balance-title">Balance</h2>
+                <div class="balance-amount" id="balance">$0.00</div>
+                <div class="emotion-container" id="emotion">😊</div>
+                <p id="emotion-message" class="emotion-message"></p>
+            </div>
+    
+            <div class="emotion-settings">
+                <button class="settings-btn" onclick="toggleEmotionSettings()">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+    
+            <div class="background-settings">
+                <button class="settings-btn" onclick="toggleBackgroundSettings()">
+                    <i class="fas fa-image"></i>
+                </button>
+            </div>
+    
+            <div class="action-buttons">
+                <button class="action-btn income-btn" onclick="showTransactionForm('income')">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button class="action-btn history-btn" onclick="toggleHistory()">
+                    <i class="fas fa-clock"></i>
+                </button>
+                <button class="action-btn expense-btn" onclick="showTransactionForm('expense')">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+    
+            <div class="history-section" id="history">
+                <h3>Historial de Transacciones</h3>
+                <div id="transactionList"></div>
+            </div>
+        </div>
+    
+        <div class="modal" id="loginModal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeLoginModal()">&times;</span>
+                <h2>Iniciar Sesión</h2>
+                <div class="form-group">
+                    <label>Usuario</label>
+                    <input type="text" id="username" placeholder="Ingrese su usuario">
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="password" placeholder="Ingrese su contraseña">
+                </div>
+                <button class="submit-btn" onclick="login()">Ingresar</button>
+            </div>
+        </div>
+    
+        <div class="modal" id="emotionSettingsModal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeEmotionSettings()">&times;</span>
+                <h2>Emotion Settings</h2>
+                <div class="form-group">
+                    <label>Display Mode</label>
+                    <select id="emotionMode" onchange="changeEmotionMode()">
+                        <option value="emoji">Emojis</option>
+                        <option value="custom">Custom Images</option>
+                    </select>
+                </div>
+                <div id="customImageInputs" style="display:none;">
+                    <div class="form-group">
+                        <label>Happy Image (Balance > 1000)</label>
+                        <input type="file" id="happyImage" accept="image/*" onchange="handleImageUpload(this, 'happy')">
+                    </div>
+                    <div class="form-group">
+                        <label>Neutral Image (Balance 0-1000)</label>
+                        <input type="file" id="neutralImage" accept="image/*" onchange="handleImageUpload(this, 'neutral')">
+                    </div>
+                    <div class="form-group">
+                        <label>Sad Image (Balance < 0)</label>
+                        <input type="file" id="sadImage" accept="image/*" onchange="handleImageUpload(this, 'sad')">
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="modal" id="transactionModal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeTransactionForm()">&times;</span>
+                <h3 id="formTitle">Nueva Transacción</h3>
+                <div class="form-group">
+                    <label>Monto</label>
+                    <input type="number" id="amount" placeholder="Ingrese el monto">
+                </div>
+                <div class="form-group">
+                    <label>Categoría</label>
+                    <select id="category">
+                        <option value="">Seleccione una categoría</option>
+                        <option value="salary">Salario</option>
+                        <option value="investment">Inversiones</option>
+                        <option value="food">Comida</option>
+                        <option value="transport">Transporte</option>
+                        <option value="entertainment">Entretenimiento</option>
+                        <option value="bills">Servicios</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <input type="text" id="description" placeholder="Ingrese una descripción">
+                </div>
+                <button class="submit-btn" onclick="addTransaction()">Guardar</button>
+            </div>
+        </div>
+    
+        <div class="modal" id="backgroundModal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeBackgroundSettings()">&times;</span>
+                <h2>Background Settings</h2>
+                <div class="form-group">
+                    <label>Custom Background Image</label>
+                    <input type="file" accept="image/*" onchange="handleBackgroundUpload(this)">
+                </div>
+                <button class="submit-btn" onclick="resetBackground()">Reset to Default</button>
+            </div>
+        </div>
+    
+        <script>
+            let balance = 0;
+            let transactions = [];
+            let isLoggedIn = false;
+            let emotionMode = 'emoji';
+            let customImages = {
+                happy: null,
+                neutral: null,
+                sad: null
+            };
+    
+            function toggleEmotionSettings() {
+                document.getElementById('emotionSettingsModal').style.display = 'flex';
+            }
+    
+            function closeEmotionSettings() {
+                document.getElementById('emotionSettingsModal').style.display = 'none';
+            }
+    
+            function toggleBackgroundSettings() {
+                document.getElementById('backgroundModal').style.display = 'flex';
+            }
+    
+            function closeBackgroundSettings() {
+                document.getElementById('backgroundModal').style.display = 'none';
+            }
+    
+            function changeEmotionMode() {
+                emotionMode = document.getElementById('emotionMode').value;
+                document.getElementById('customImageInputs').style.display = 
+                    emotionMode === 'custom' ? 'block' : 'none';
+                updateEmotion();
+            }
+    
+            function handleImageUpload(input, type) {
+                const file = input.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        customImages[type] = e.target.result;
+                        updateEmotion();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+    
+            function handleBackgroundUpload(input) {
+                const file = input.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.body.style.backgroundImage = `url(${e.target.result})`;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+    
+            function resetBackground() {
+                document.body.style.backgroundImage = 'none';
+            }
+    
+            function updateEmotion() {
+                const emotionElement = document.getElementById('emotion');
+                let emotion = '😹';
+                let message = '';
+                
+                const recentTransactions = transactions.slice(-5);
+                const spendingRate = recentTransactions.reduce((acc, t) => acc + (t.type === 'expense' ? t.amount : 0), 0);
+                const incomeRate = recentTransactions.reduce((acc, t) => acc + (t.type === 'income' ? t.amount : 0), 0);
+                const savingsRate = (incomeRate + spendingRate) / (incomeRate || 1);
+    
+                if (emotionMode === 'custom' && Object.values(customImages).some(img => img)) {
+                    let imageUrl;
+                    if (balance >= 1000) {
+                        imageUrl = customImages.happy;
+                    } else if (balance >= 0) {
+                        imageUrl = customImages.neutral;
+                    } else {
+                        imageUrl = customImages.sad;
+                    }
+                    
+                    if (imageUrl) {
+                        emotionElement.innerHTML = `<img src="${imageUrl}" alt="Custom emotion">`;
+                        return;
+                    }
+                }
+    
+                if (balance >= 2000 && savingsRate > 0.5) {
+                    emotion = '😽';
+                    message = '¡Increíble! Eres excelente ahorrando y manteniendo tus finanzas.';
+                } else if (balance >= 1000) {
+                    emotion = '😼';
+                    message = spendingRate < -500 
+                        ? '¡Estoy feliz pero cuidado con los gastos recientes!'
+                        : '¡Estoy muy feliz! Sigues ahorrando muy bien.';
+                } else if (balance >= 500) {
+                    emotion = '😼';
+                    message = '¡Me siento genial! ' + (spendingRate < -200 
+                        ? 'Pero moderemos un poco los gastos.'
+                        : 'Mantienes un buen balance.');
+                } else if (balance > 100) {
+                    emotion = '😹';
+                    message = 'Todo va bien, ' + (savingsRate < 0.3 
+                        ? '¡pero podríamos ahorrar más!' 
+                        : '¡sigue así!');
+                } else if (balance > 0) {
+                    emotion = '😸';
+                    message = 'Podríamos ahorrar un poco más...';
+                } else if (balance === 0) {
+                    emotion = '😺';
+                    message = '¡Necesito algunos ahorros!';
+                } else if (balance < -100) {
+                    emotion = '🙀';
+                    message = '¡Ayuda! ' + (spendingRate < -300 
+                        ? 'Los gastos están fuera de control...'
+                        : 'Estamos gastando demasiado...');
+                } else {
+                    emotion = '😿';
+                    message = 'Por favor, necesito mejorar mis finanzas...';
+                }
+    
+                if (recentTransactions.length >= 3) {
+                    const lastThree = recentTransactions.slice(-3);
+                    if (lastThree.every(t => t.type === 'expense')) {
+                        emotion = '🙀';
+                        message = '¡Muchos gastos seguidos! ¿Todo está bien?';
+                    } else if (lastThree.every(t => t.type === 'income')) {
+                        emotion = '😻';
+                        message = '¡Wow, cuántos ingresos! ¡Sigamos así!';
+                    }
+                }
+    
+                emotionElement.textContent = emotion;
+                emotionElement.classList.add('bounce');
+                document.getElementById('emotion-message').textContent = message;
+    
+                setTimeout(() => emotionElement.classList.remove('bounce'), 1000);
+            }
+    
+            function showLoginModal() {
+                document.getElementById('loginModal').style.display = 'flex';
+            }
+    
+            function closeLoginModal() {
+                document.getElementById('loginModal').style.display = 'none';
+            }
+    
+            function login() {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+    
+                if (username && password) {
+                    isLoggedIn = true;
+                    closeLoginModal();
+                    alert('¡Bienvenido ' + username + '!');
+                } else {
+                    alert('Por favor ingrese usuario y contraseña');
+                }
+            }
+    
+            function showTransactionForm(type) {
+                if (!isLoggedIn) {
+                    alert('Por favor inicie sesión primero');
+                    showLoginModal();
+                    return;
+                }
+    
+                const modal = document.getElementById('transactionModal');
+                modal.style.display = 'flex';
+                modal.dataset.type = type;
+                document.getElementById('formTitle').textContent = 
+                    type === 'income' ? 'Nuevo Ingreso' : 'Nuevo Egreso';
+            }
+    
+            function closeTransactionForm() {
+                document.getElementById('transactionModal').style.display = 'none';
+                clearForm();
+            }
+    
+            function addTransaction() {
+                const amount = parseFloat(document.getElementById('amount').value);
+                const category = document.getElementById('category').value;
+                const description = document.getElementById('description').value;
+                const type = document.getElementById('transactionModal').dataset.type;
+    
+                if (!amount || !category || !description) {
+                    alert('Por favor complete todos los campos');
+                    return;
+                }
+    
+                const transaction = {
+                    type,
+                    amount: type === 'income' ? amount : -amount,
+                    category,
+                    description,
+                    date: new Date().toLocaleString()
+                };
+    
+                transactions.push(transaction);
+                balance += transaction.amount;
+    
+                updateBalance();
+                updateTransactionList();
+                clearForm();
+            }
+    
+            function updateBalance() {
+                document.getElementById('balance').textContent = `Balance: $${balance.toFixed(2)}`;
+                updateEmotion();
+            }
+    
+            function updateTransactionList() {
+                const list = document.getElementById('transactionList');
+                list.innerHTML = '';
+    
+                transactions.forEach(transaction => {
+                    const item = document.createElement('div');
+                    item.className = 'transaction-item';
+                    item.innerHTML = `
+                        <div>
+                            <strong>${transaction.description}</strong>
+                            <div>${transaction.category}</div>
+                            <small>${transaction.date}</small>
+                        </div>
+                        <div class="${transaction.type === 'income' ? 'income' : 'expense'}">
+                            ${transaction.type === 'income' ? '+' : '-'}$${Math.abs(transaction.amount).toFixed(2)}
+                        </div>
+                    `;
+                    list.appendChild(item);
+                });
+            }
+    
+            function clearForm() {
+                document.getElementById('amount').value = '';
+                document.getElementById('category').value = '';
+                document.getElementById('description').value = '';
+                document.getElementById('transactionModal').style.display = 'none';
+            }
+    
+            function toggleHistory() {
+                const historyModal = document.createElement('div');
+                historyModal.className = 'modal';
+                historyModal.innerHTML = `
+                    <div class="modal-content">
+                        <span class="close-btn" onclick="this.parentElement.parentElement.remove()">&times;</span>
+                        <h2>Historial de Transacciones</h2>
+                        <div class="totals-summary">
+                            <div class="total-item income">
+                                <h3>Total Ingresos</h3>
+                                <span>+$${transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0).toFixed(2)}</span>
+                            </div>
+                            <div class="total-item expense">
+                                <h3>Total Egresos</h3>
+                                <span>-$${Math.abs(transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0)).toFixed(2)}</span>
+                            </div>
+                        </div>
+                        <div class="transactions-container">
+                            ${generateTransactionHTML()}
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(historyModal);
+                historyModal.style.display = 'flex';
+            }
+    
+            function generateTransactionHTML() {
+                return transactions.map(t => `
+                    <div class="transaction-item">
+                        <div class="transaction-details">
+                            <h4>${t.description}</h4>
+                            <span class="category">${t.category}</span>
+                            <span class="date">${t.date}</span>
+                        </div>
+                        <div class="amount ${t.type}">
+                            ${t.type === 'income' ? '+' : '-'}$${Math.abs(t.amount).toFixed(2)}
+                        </div>
+                    </div>
+                `).join('');
+            }
+    
+            // Inicialización
+            updateBalance();
+        </script>
+    </body>
+    </html>
